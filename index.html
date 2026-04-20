@@ -879,7 +879,7 @@ ${l}
 ${payLabel==='Cash on Delivery'?'⚠️ COD — collect ₹'+t+' on delivery':'✅ UPI paid — verify Txn ID above'}`;
 
   // Use 8973155551 directly as specified
-  window.open(`https://wa.me/8973155551?text=${encodeURIComponent(ownerMsg)}`, '_blank');
+  window.open(`https://wa.me/918973155551?text=${encodeURIComponent(ownerMsg)}`, '_blank');
 
   // ── 2. Email to owner ──
   const subj = `New Order ${oid} — NIK Café`;
@@ -936,7 +936,7 @@ function closeSuccess(){
   document.getElementById('successModal').classList.remove('on');
   showToast('🍔 Thanks for ordering from NIK Café!');
 }
-function openWA(){window.open(`https://wa.me/8973155551?text=${encodeURIComponent("Hi NIK Café! I'd like to place an order 🍔")}`,'_blank');}
+function openWA(){window.open(`https://wa.me/+918973155551?text=${encodeURIComponent("Hi NIK Café! I'd like to place an order 🍔")}`,'_blank');}
 
 function showToast(msg){
   const t=document.getElementById('toast');
