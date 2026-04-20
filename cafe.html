@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIK Café — Order Fresh, Eat Happy</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Abril+Fatface&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d1f1a;--bg2:#0a1a16;--card:#132920;--card2:#1a3328;--teal:#00c896;--teal2:#00e5a8;--orange:#ff6b35;--cream:#f0f7f4;--text:#d4ede6;--muted:#6b9e8e;--border:rgba(0,200,150,0.12);--border2:rgba(0,200,150,0.22);--radius:18px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--teal);border-radius:4px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(13,31,26,0.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.logo{font-family:'Abril Fatface',serif;font-size:1.9rem;letter-spacing:0.03em;background:linear-gradient(130deg,var(--teal),var(--teal2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.logo sup{font-family:'Nunito',sans-serif;font-size:0.5rem;-webkit-text-fill-color:var(--orange);font-weight:800;letter-spacing:0.1em;vertical-align:super;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:0.83rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.3s;}
+.nav-links a:hover{color:var(--teal);}
+.cart-fab{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0a1a16;border:none;padding:11px 22px;border-radius:50px;font-family:'Syne',sans-serif;font-weight:800;font-size:0.88rem;cursor:pointer;transition:all 0.3s;}
+.cart-fab:hover{transform:scale(1.04);box-shadow:0 8px 30px rgba(0,200,150,0.4);}
+.badge{background:var(--orange);color:white;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:800;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:100px 40px 60px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 75% 50%,rgba(0,200,150,0.07),transparent 70%),radial-gradient(ellipse 40% 60% at 15% 80%,rgba(255,107,53,0.07),transparent 60%);}
+.dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(0,200,150,0.08) 1px,transparent 1px);background-size:36px 36px;}
+.hero-inner{max-width:1280px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:2;}
+.pill{display:inline-flex;align-items:center;gap:8px;background:rgba(0,200,150,0.08);border:1px solid rgba(0,200,150,0.2);color:var(--teal);padding:7px 18px;border-radius:50px;font-size:0.72rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:22px;}
+.pill::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--teal);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,5.5vw,5rem);font-weight:800;line-height:1.07;margin-bottom:18px;}
+.hero h1 .t{color:var(--teal);}.hero h1 .o{color:var(--orange);}
+.hero-sub{color:var(--muted);font-size:1rem;line-height:1.75;margin-bottom:36px;max-width:430px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-main{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0a1a16;border:none;padding:14px 32px;border-radius:50px;font-family:'Syne',sans-serif;font-weight:800;font-size:0.9rem;cursor:pointer;transition:all 0.3s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+.btn-main:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,200,150,0.35);}
+.btn-out{border:1.5px solid rgba(0,200,150,0.3);color:var(--teal);background:transparent;padding:14px 28px;border-radius:50px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.3s;text-decoration:none;display:inline-flex;align-items:center;}
+.btn-out:hover{background:rgba(0,200,150,0.07);border-color:var(--teal);}
+.hviz{position:relative;height:500px;display:flex;align-items:center;justify-content:center;}
+.hring{width:400px;height:400px;border-radius:50%;border:1px solid rgba(0,200,150,0.09);position:absolute;animation:sp 25s linear infinite;}
+.hring2{width:310px;height:310px;border-radius:50%;border:1px dashed rgba(0,200,150,0.06);position:absolute;animation:sp 18s linear infinite reverse;}
+@keyframes sp{to{transform:rotate(360deg)}}
+.himg{width:340px;height:340px;border-radius:50%;object-fit:cover;border:3px solid rgba(0,200,150,0.15);box-shadow:0 30px 80px rgba(0,0,0,0.6),0 0 60px rgba(0,200,150,0.08);animation:fl 5s ease-in-out infinite;position:relative;z-index:2;}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.chip{position:absolute;z-index:3;background:var(--card2);border:1px solid var(--border2);border-radius:14px;padding:12px 16px;}
+.chip1{bottom:70px;left:10px;}.chip2{top:90px;right:0;}
+.cv{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--teal);}
+.cl{font-size:0.68rem;color:var(--muted);}
+
+/* STATS */
+.stats{background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:26px 40px;display:flex;justify-content:center;gap:70px;flex-wrap:wrap;}
+.stat{text-align:center;}
+.sn{font-family:'Abril Fatface',serif;font-size:1.9rem;color:var(--teal);}
+.sl{font-size:0.7rem;color:var(--muted);font-weight:800;letter-spacing:0.08em;text-transform:uppercase;}
+
+/* SECTION */
+section{padding:80px 40px;}
+.slabel{display:block;color:var(--teal);font-size:0.7rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:10px;}
+.stitle{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;}
+.stitle .o{color:var(--orange);}
+.shdr{text-align:center;margin-bottom:52px;}
+
+/* TABS */
+.tabs{display:flex;justify-content:center;gap:10px;margin-bottom:44px;flex-wrap:wrap;}
+.tab{background:transparent;border:1.5px solid var(--border);color:var(--muted);padding:9px 22px;border-radius:50px;font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.3s;}
+.tab.on,.tab:hover{background:var(--teal);color:#0a1a16;border-color:var(--teal);}
+
+/* MENU */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:22px;max-width:1280px;margin:0 auto;}
+.mcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+.mcard:hover{transform:translateY(-8px);border-color:var(--border2);box-shadow:0 20px 50px rgba(0,0,0,0.4);}
+.mwrap{overflow:hidden;position:relative;height:195px;}
+.mimg{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;}
+.mcard:hover .mimg{transform:scale(1.06);}
+.mbadge{position:absolute;top:12px;left:12px;background:var(--orange);color:white;font-size:0.62rem;font-weight:800;padding:4px 10px;border-radius:30px;text-transform:uppercase;}
+.mveg{position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:4px;}
+.mbody{padding:16px 18px 18px;}
+.mname{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;margin-bottom:5px;color:var(--cream);}
+.mdesc{font-size:0.78rem;color:var(--muted);line-height:1.5;margin-bottom:14px;}
+.mfoot{display:flex;align-items:center;justify-content:space-between;}
+.mprice{font-family:'Abril Fatface',serif;font-size:1.3rem;color:var(--teal);}
+.mprice small{font-family:'Nunito',sans-serif;font-size:0.7rem;color:var(--muted);font-weight:400;}
+.addbtn{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0a1a16;border:none;width:38px;height:38px;border-radius:50%;font-size:1.3rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
+.addbtn:hover{transform:scale(1.18);box-shadow:0 6px 20px rgba(0,200,150,0.4);}
+
+/* ABOUT */
+.awrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.aimg{width:100%;height:460px;object-fit:cover;border-radius:24px;border:1px solid var(--border);}
+.aiwrap{position:relative;}
+.afloat{position:absolute;bottom:-20px;right:-20px;background:var(--card2);border:1px solid var(--border2);border-radius:16px;padding:18px 22px;box-shadow:0 20px 40px rgba(0,0,0,0.5);}
+.flist{list-style:none;margin-top:22px;display:flex;flex-direction:column;gap:12px;}
+.fi{display:flex;align-items:center;gap:12px;font-size:0.9rem;}
+.fd{width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0;}
+
+/* OVERLAY & SIDEBAR */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:1000;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(5px);}
+.ov.on{opacity:1;pointer-events:all;}
+.sb{position:fixed;top:0;right:0;width:430px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:1001;transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;overflow:hidden;}
+.sb.on{transform:translateX(0);}
+.sbh{padding:22px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.sbtitle{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;}
+.sbx{background:transparent;border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
+.sbx:hover{color:var(--cream);border-color:var(--teal);}
+
+/* STEPS BAR */
+.steps{display:flex;align-items:center;padding:14px 24px;border-bottom:1px solid var(--border);flex-shrink:0;gap:4px;}
+.sdot{display:flex;align-items:center;gap:6px;font-size:0.7rem;font-weight:700;color:var(--muted);letter-spacing:0.04em;transition:color 0.3s;}
+.sdot .d{width:22px;height:22px;border-radius:50%;background:var(--card2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;transition:all 0.3s;}
+.sdot.active .d,.sdot.done .d{background:var(--teal);border-color:var(--teal);color:#0a1a16;}
+.sdot.active{color:var(--teal);}
+.sline{flex:1;height:1px;background:var(--border);margin:0 4px;transition:background 0.3s;}
+.sline.done{background:var(--teal);}
+
+/* PANELS */
+.sbbody{flex:1;overflow-y:auto;}
+.panel{display:none;padding:20px 24px;}
+.panel.active{display:block;}
+
+/* STEP 1 */
+.ci{display:grid;grid-template-columns:58px 1fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.ciimg{width:58px;height:58px;border-radius:10px;object-fit:cover;}
+.cin{font-weight:700;font-size:0.88rem;margin-bottom:3px;color:var(--cream);}
+.cip{font-size:0.78rem;color:var(--teal);font-weight:600;}
+.qctrl{display:flex;align-items:center;gap:7px;}
+.qb{background:rgba(0,200,150,0.1);border:1px solid var(--border2);color:var(--teal);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.25s;}
+.qb:hover{background:var(--teal);color:#0a1a16;}
+.qn{font-weight:800;font-size:0.9rem;min-width:18px;text-align:center;}
+.empt{text-align:center;padding:50px 0;color:var(--muted);}
+.subbar{background:var(--card2);border-radius:12px;padding:14px 16px;margin-top:16px;display:flex;justify-content:space-between;align-items:center;}
+.subbar-l{font-size:0.82rem;color:var(--muted);}
+.subbar-v{font-family:'Abril Fatface',serif;font-size:1.3rem;color:var(--teal);}
+
+/* STEP 2 */
+.ag{margin-bottom:12px;}
+.al{font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--teal);margin-bottom:5px;display:block;}
+.ai{width:100%;background:rgba(255,255,255,0.04);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-family:'Nunito',sans-serif;font-size:0.88rem;padding:11px 14px;outline:none;transition:border-color 0.3s;}
+.ai:focus{border-color:var(--teal);}
+.ai::placeholder{color:var(--muted);}
+.arow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.aerr{font-size:0.72rem;color:var(--orange);margin-top:6px;display:none;}
+.aerr.show{display:block;}
+
+/* STEP 3 */
+.ptbox{background:var(--card2);border:1px solid var(--border2);border-radius:14px;padding:16px;margin-bottom:14px;}
+.ptr{display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:6px;}
+.ptr.grand{border-top:1px solid var(--border);padding-top:10px;margin-top:6px;}
+.ptrl{color:var(--muted);}
+.ptrv{font-weight:700;}
+.ptgl{font-family:'Syne',sans-serif;font-weight:800;}
+.ptgv{font-family:'Abril Fatface',serif;font-size:1.4rem;color:var(--teal);}
+.ptitle{font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin:14px 0 10px;}
+.pycards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;}
+.pycard{background:var(--card2);border:1.5px solid var(--border);border-radius:14px;padding:14px 8px;cursor:pointer;transition:all 0.3s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.pycard:hover,.pycard.sel{border-color:var(--teal);background:rgba(0,200,150,0.07);}
+.pyn{font-size:0.68rem;color:var(--muted);font-weight:700;}
+.gpb{background:white;color:#000;border-radius:6px;padding:3px 7px;font-size:0.72rem;font-weight:900;letter-spacing:-0.03em;}
+.ppb{background:#5f259f;color:white;border-radius:6px;padding:3px 7px;font-size:0.72rem;font-weight:900;}
+.ptmb{background:#002970;color:white;border-radius:6px;padding:3px 7px;font-size:0.72rem;font-weight:900;}
+.codb{background:var(--orange);color:white;border-radius:6px;padding:3px 7px;font-size:0.72rem;font-weight:900;}
+.codinf{background:rgba(255,107,53,0.07);border:1px solid rgba(255,107,53,0.2);border-radius:10px;padding:12px;font-size:0.8rem;color:var(--muted);margin:8px 0;line-height:1.6;display:none;}
+.paynow{width:100%;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0a1a16;border:none;padding:15px;border-radius:14px;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:all 0.3s;margin-top:4px;}
+.paynow:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,200,150,0.35);}
+
+/* BOTTOM CTA */
+.sbfooter{flex-shrink:0;padding:0 24px 22px;border-top:1px solid var(--border);padding-top:14px;}
+.ctabtn{width:100%;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0a1a16;border:none;padding:14px;border-radius:14px;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:10px;}
+.ctabtn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,200,150,0.35);}
+.ctabtn:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none;}
+
+/* WA FLOAT */
+.wafloat{position:fixed;bottom:28px;left:28px;z-index:800;background:#25D366;color:white;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 25px rgba(37,211,102,0.45);transition:all 0.3s;animation:wap 3s ease-in-out infinite;}
+@keyframes wap{0%,100%{box-shadow:0 6px 25px rgba(37,211,102,0.45)}50%{box-shadow:0 6px 40px rgba(37,211,102,0.7),0 0 0 8px rgba(37,211,102,0.1)}}
+.wafloat:hover{transform:scale(1.12);}
+.watip{position:absolute;left:68px;background:var(--card2);color:var(--cream);padding:7px 14px;border-radius:8px;font-size:0.78rem;font-weight:700;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.3s;border:1px solid var(--border);}
+.wafloat:hover .watip{opacity:1;}
+
+/* MODAL */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(8px);}
+.mbg.on{opacity:1;pointer-events:all;}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:24px;padding:36px;max-width:400px;width:90%;text-align:center;transform:scale(0.88);transition:transform 0.3s;max-height:90vh;overflow-y:auto;}
+.mbg.on .modal{transform:scale(1);}
+.mico{font-size:2.8rem;margin-bottom:14px;}
+.mtit{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:8px;}
+.msub{color:var(--muted);font-size:0.85rem;line-height:1.6;margin-bottom:6px;}
+.mamt{font-family:'Abril Fatface',serif;font-size:2.4rem;color:var(--teal);margin:12px 0;}
+.ubox{background:var(--card);border:1.5px solid var(--border2);border-radius:12px;padding:12px;margin:12px 0;font-size:0.82rem;color:var(--muted);}
+.uid{font-family:'Syne',sans-serif;font-weight:700;color:var(--teal);font-size:1rem;word-break:break-all;}
+.msteps{text-align:left;background:rgba(0,200,150,0.05);border-radius:12px;padding:14px 16px;margin:12px 0;}
+.ms{font-size:0.8rem;color:var(--muted);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);line-height:1.5;}
+.ms:last-child{border:none;}
+.paylink{display:block;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0a1a16;text-decoration:none;padding:13px;border-radius:12px;font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;margin:14px 0 8px;transition:all 0.3s;}
+.paylink:hover{transform:translateY(-2px);}
+.mclose{background:transparent;border:1.5px solid var(--border2);color:var(--teal);padding:11px 28px;border-radius:50px;font-family:'Syne',sans-serif;font-weight:700;cursor:pointer;transition:all 0.3s;margin-top:4px;}
+.mclose:hover{background:rgba(0,200,150,0.08);}
+.codc{width:100%;background:var(--orange);color:white;border:none;padding:13px;border-radius:12px;font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;cursor:pointer;transition:all 0.3s;margin-top:12px;}
+.codc:hover{background:#ff8c5a;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--teal);color:#0a1a16;padding:11px 26px;border-radius:50px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;z-index:5000;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);white-space:nowrap;}
+.toast.on{transform:translateX(-50%) translateY(0);}
+
+/* FOOTER */
+footer{background:var(--card);border-top:1px solid var(--border);padding:50px 40px 28px;}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;max-width:1200px;margin:0 auto 36px;}
+.fl{font-size:0.82rem;color:var(--muted);line-height:1.7;}
+.ft{font-size:0.68rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;}
+.flinks{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.flinks a{color:var(--muted);text-decoration:none;font-size:0.83rem;transition:color 0.3s;}
+.flinks a:hover{color:var(--teal);}
+.fct{font-size:0.83rem;color:var(--muted);margin-bottom:10px;display:flex;gap:9px;}
+.fct a{color:var(--teal);text-decoration:none;}
+.fbot{border-top:1px solid rgba(255,255,255,0.05);padding-top:22px;text-align:center;font-size:0.78rem;color:var(--muted);max-width:1200px;margin:0 auto;}
+
+/* ── UPI MODAL STATES ── */
+.upi-modal-inner{text-align:center;}
+.upi-ico{font-size:2.6rem;margin-bottom:10px;}
+.upi-title{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;margin-bottom:6px;}
+.upi-sub{color:var(--muted);font-size:0.83rem;line-height:1.6;margin-bottom:14px;}
+.upi-amt{font-family:'Abril Fatface',serif;font-size:2.6rem;color:var(--teal);margin:10px 0;}
+.upi-id-box{background:var(--card);border:1.5px solid var(--border2);border-radius:12px;padding:12px 14px;margin:10px 0;font-size:0.8rem;color:var(--muted);word-break:break-all;}
+.upi-id-box strong{display:block;font-family:'Syne',sans-serif;font-weight:700;color:var(--teal);font-size:1rem;margin-top:3px;}
+/* PAY button — mobile opens UPI app, desktop shows QR/alert */
+.upi-pay-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0a1a16;text-decoration:none;padding:14px;border-radius:14px;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;margin:14px 0 8px;border:none;cursor:pointer;transition:all 0.3s;}
+.upi-pay-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,200,150,0.35);}
+/* VERIFY section — appears after user taps Pay */
+.verify-section{display:none;background:rgba(0,200,150,0.06);border:1.5px solid rgba(0,200,150,0.2);border-radius:14px;padding:16px;margin:10px 0;text-align:left;}
+.verify-section.show{display:block;}
+.verify-label{font-size:0.75rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+.verify-input{width:100%;background:rgba(255,255,255,0.04);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-family:'Nunito',sans-serif;font-size:0.9rem;padding:10px 14px;outline:none;transition:border-color 0.3s;margin-bottom:10px;}
+.verify-input:focus{border-color:var(--teal);}
+.verify-input::placeholder{color:var(--muted);}
+.verify-btn{width:100%;background:var(--teal);color:#0a1a16;border:none;padding:13px;border-radius:12px;font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;cursor:pointer;transition:all 0.3s;}
+.verify-btn:hover{background:var(--teal2);transform:translateY(-1px);}
+/* DESKTOP FALLBACK */
+.desktop-fallback{display:none;background:rgba(255,107,53,0.07);border:1.5px solid rgba(255,107,53,0.25);border-radius:14px;padding:16px;margin:12px 0;text-align:center;}
+.desktop-fallback.show{display:block;}
+.df-title{font-family:'Syne',sans-serif;font-weight:800;font-size:0.9rem;color:var(--orange);margin-bottom:6px;}
+.df-sub{font-size:0.78rem;color:var(--muted);line-height:1.6;margin-bottom:12px;}
+#qrCanvas{border-radius:12px;border:3px solid white;display:block;margin:0 auto 10px;}
+.df-upi{font-family:'Syne',sans-serif;font-weight:700;color:var(--teal);font-size:0.9rem;word-break:break-all;background:var(--card);border-radius:8px;padding:8px 12px;display:inline-block;margin-top:4px;}
+.upi-steps{text-align:left;background:rgba(0,200,150,0.04);border-radius:12px;padding:14px 16px;margin:12px 0;}
+.us{font-size:0.79rem;color:var(--muted);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);line-height:1.5;}
+.us:last-child{border:none;}
+.modal-cancel{background:transparent;border:1px solid var(--border);color:var(--muted);padding:9px 22px;border-radius:50px;font-family:'Syne',sans-serif;font-weight:600;font-size:0.8rem;cursor:pointer;transition:all 0.3s;margin-top:6px;}
+.modal-cancel:hover{border-color:var(--teal);color:var(--teal);}
+
+/* ── SUCCESS MODAL ── */
+.success-burst{font-size:3.5rem;margin-bottom:8px;animation:burst 0.6s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes burst{0%{transform:scale(0)}100%{transform:scale(1)}}
+.success-card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:16px;margin:16px 0;text-align:left;font-size:0.82rem;line-height:1.8;color:var(--muted);}
+.success-card strong{color:var(--teal);}
+.success-note{font-size:0.78rem;color:var(--muted);line-height:1.6;margin-bottom:14px;background:rgba(0,200,150,0.05);border-radius:10px;padding:10px 14px;}
+.success-close{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0a1a16;border:none;padding:13px 32px;border-radius:50px;font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;cursor:pointer;transition:all 0.3s;}
+.success-close:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,200,150,0.35);}
+.codc{width:100%;background:var(--orange);color:white;border:none;padding:13px;border-radius:12px;font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;cursor:pointer;transition:all 0.3s;margin-top:12px;}
+.codc:hover{background:#ff8c5a;}
+
+@media(max-width:900px){
+  nav{padding:14px 18px;}.nav-links{display:none;}
+  .hero-inner,.awrap,.fg{grid-template-columns:1fr;gap:30px;}
+  .hero{padding:100px 20px 50px;}
+  .hviz{height:280px;}.himg,.hring{width:230px;height:230px;}
+  section{padding:55px 20px;}
+  .stats{gap:24px;padding:22px 20px;}
+  .sb{width:100%;}
+  .arow{grid-template-columns:1fr;}
+  footer{padding:38px 20px 22px;}
+  .chip{display:none;}
+  .wafloat{bottom:18px;left:18px;}
+}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- WA FLOAT -->
+<button class="wafloat" onclick="openWA()">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.117 1.528 5.845L0 24l6.335-1.508A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.65-.513-5.17-1.408l-.371-.22-3.76.895.942-3.659-.242-.386A9.937 9.937 0 012 12c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10z"/></svg>
+  <span class="watip">Order on WhatsApp</span>
+</button>
+
+<!-- ── UPI PAYMENT MODAL ── -->
+<div class="mbg" id="payModal">
+  <div class="modal">
+    <div id="mBody"></div>
+  </div>
+</div>
+
+<!-- ── SUCCESS MODAL ── -->
+<div class="mbg" id="successModal">
+  <div class="modal" style="max-width:440px;">
+    <div class="success-burst" id="successBurst">🎉</div>
+    <div class="mtit" style="font-size:1.6rem;margin-bottom:8px;">Order Placed!</div>
+    <div class="msub" id="successSub"></div>
+    <div class="success-card" id="successCard"></div>
+    <div class="success-note">📱 Order details sent to WhatsApp &amp; your email. We'll confirm shortly!</div>
+    <button class="success-close" onclick="closeSuccess()">✓ Done — Track my order</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">NIK<sup>CAFÉ</sup></div>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="cart-fab" onclick="openSB()">
+    🛒 View Cart <span class="badge" id="cbadge">0</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="dots"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="pill">🟢 Now Accepting Orders</div>
+      <h1>Fresh Food,<br><span class="t">Fast</span> Delivery,<br><span class="o">Zero</span> Compromise.</h1>
+      <p class="hero-sub">Handcrafted burgers, wood-fired pizzas, crispy shawarmas & fresh lemonades — delivered hot to your door.</p>
+      <div class="hero-btns">
+        <a href="#menu" class="btn-main">Browse Menu 🍔</a>
+        <button class="btn-out" onclick="openWA()">💬 Chat with us</button>
+      </div>
+    </div>
+    <div class="hviz">
+      <div class="hring"></div>
+      <div class="hring2"></div>
+      <img src="nik im.png" alt="nik im.png" class="himg">
+      <div class="chip chip1"><div class="cv">4.9 ★</div><div class="cl">Customer Rating</div></div>
+      <div class="chip chip2"><div class="cv">~30 min</div><div class="cl">Delivery Time</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="sn">2K+</div><div class="sl">Happy Customers</div></div>
+  <div class="stat"><div class="sn">15+</div><div class="sl">Menu Items</div></div>
+  <div class="stat"><div class="sn">4.9★</div><div class="sl">Avg Rating</div></div>
+  <div class="stat"><div class="sn">FREE</div><div class="sl">Delivery</div></div>
+</div>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="shdr">
+    <span class="slabel">— Our Menu —</span>
+    <h2 class="stitle">Made Fresh, <span class="o">Every Time</span></h2>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="filterMenu('all',this)">All</button>
+    <button class="tab" onclick="filterMenu('burger',this)">🍔 Burgers</button>
+    <button class="tab" onclick="filterMenu('pizza',this)">🍕 Pizzas</button>
+    <button class="tab" onclick="filterMenu('shawarma',this)">🌯 Shawarma</button>
+    <button class="tab" onclick="filterMenu('drinks',this)">🍋 Drinks</button>
+  </div>
+  <div class="mgrid" id="mgrid"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="awrap">
+    <div class="aiwrap">
+      <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80" alt="NIK Café" class="aimg">
+      <div class="afloat"><div style="font-size:2rem;">🏆</div><div class="cl" style="margin-top:4px;">Premium Quality<br>Always Fresh</div></div>
+    </div>
+    <div>
+      <span class="slabel">— Who We Are —</span>
+      <h2 class="stitle" style="text-align:left;margin-bottom:16px;">NIK Café — <span class="o">Born for Flavour</span></h2>
+      <p style="color:var(--muted);line-height:1.8;margin-bottom:12px;font-size:0.95rem;">We believe every meal should feel like a celebration. At NIK Café, we pour passion into every patty, every wrap, every slice.</p>
+      <p style="color:var(--muted);line-height:1.8;font-size:0.95rem;">From bold smash burgers to golden shawarmas and stone-fired pizzas — we've redefined premium street food.</p>
+      <ul class="flist">
+        <li class="fi"><span class="fd"></span>Fresh & Delicious Food served every day</li>
+        <li class="fi"><span class="fd"></span>Made with Love, Served with Care</li>
+        <li class="fi"><span class="fd"></span>Hygienic Preparation with Quality Ingredients</li>
+        <li class="fi"><span class="fd"></span>Quick Service & Customer Satisfaction First</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CART SIDEBAR -->
+<div class="ov" id="ov" onclick="closeSB()"></div>
+<div class="sb" id="sb">
+  <div class="sbh">
+    <span class="sbtitle">Your Cart 🛒</span>
+    <button class="sbx" onclick="closeSB()">✕</button>
+  </div>
+
+  <!-- STEPS -->
+  <div class="steps">
+    <div class="sdot active" id="sd1"><span class="d">1</span>Items</div>
+    <div class="sline" id="sl1"></div>
+    <div class="sdot" id="sd2"><span class="d">2</span>Address</div>
+    <div class="sline" id="sl2"></div>
+    <div class="sdot" id="sd3"><span class="d">3</span>Payment</div>
+  </div>
+
+  <div class="sbbody">
+    <!-- STEP 1 -->
+    <div class="panel active" id="p1">
+      <div id="citems">
+        <!-- FIX: empt is always in DOM, shown/hidden via style only -->
+        <div class="empt" id="empt"><div style="font-size:3rem;margin-bottom:14px;">🛒</div><p>Cart is empty!<br>Tap <strong style="color:var(--teal)">+</strong> on any item.</p></div>
+        <!-- FIX: cart items render here, never touching #empt -->
+        <div id="cart-list"></div>
+      </div>
+      <div id="sbar" style="display:none">
+        <div class="subbar"><span class="subbar-l">Items Total</span><span class="subbar-v" id="subv">₹0</span></div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="panel" id="p2">
+      <div class="ag"><label class="al">Full Name *</label><input type="text" class="ai" id="aN" placeholder="Your full name"></div>
+      <div class="ag"><label class="al">Phone Number *</label><input type="tel" class="ai" id="aPh" placeholder="+91 XXXXX XXXXX"></div>
+      <div class="ag"><label class="al">Email (for order confirmation) *</label><input type="email" class="ai" id="aEm" placeholder="you@email.com"></div>
+      <div class="ag"><label class="al">Street Address *</label><textarea class="ai" id="aSt" rows="2" placeholder="House No., Street, Area..." style="resize:none;"></textarea></div>
+      <div class="ag">
+        <div class="arow">
+          <div><label class="al">City *</label><input type="text" class="ai" id="aCi" placeholder="City"></div>
+          <div><label class="al">PIN Code *</label><input type="text" class="ai" id="aPi" placeholder="600001"></div>
+        </div>
+      </div>
+      <div class="ag"><label class="al">Landmark (optional)</label><input type="text" class="ai" id="aLm" placeholder="Near school, hospital..."></div>
+      <p class="aerr" id="aerr">⚠️ Please fill all required fields</p>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="panel" id="p3">
+      <div class="ptbox">
+        <div class="ptr"><span class="ptrl">Subtotal</span><span class="ptrv" id="pt-s">₹0</span></div>
+        <div class="ptr"><span class="ptrl">Delivery</span><span class="ptrv" style="color:var(--teal)">FREE 🎉</span></div>
+        <div class="ptr grand"><span class="ptgl">Grand Total</span><span class="ptgv" id="pt-g">₹0</span></div>
+      </div>
+      <div class="ptitle">Choose Payment Method</div>
+      <div class="pycards">
+        <div class="pycard" onclick="selPay('gpay',this)"><span class="gpb">G Pay</span><span class="pyn">Google Pay</span></div>
+        <div class="pycard" onclick="selPay('phonepe',this)"><span class="ppb">PhonePe</span><span class="pyn">PhonePe</span></div>
+        <div class="pycard" onclick="selPay('paytm',this)"><span class="ptmb">Paytm</span><span class="pyn">Paytm</span></div>
+        <div class="pycard" onclick="selPay('cod',this)" style="grid-column:1/-1;"><span class="codb">💵 Cash on Delivery</span><span class="pyn">Pay when food arrives</span></div>
+      </div>
+      <div class="codinf" id="codinf">📦 COD available. Please keep ₹<span id="codamt">0</span> exact change ready. Our delivery partner collects on arrival.</div>
+      <button class="paynow" onclick="processPayment()">Confirm &amp; Pay →</button>
+    </div>
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <div class="sbfooter">
+    <button class="ctabtn" id="ctabtn" onclick="ctaClick()" disabled>🍔 Order Your Food</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="fg">
+    <div>
+      <div class="logo" style="font-size:1.6rem;display:inline-block;margin-bottom:12px;">NIK<sup style="font-family:Nunito;font-size:0.5rem;color:var(--orange);vertical-align:super;font-weight:800;">CAFÉ</sup></div>
+      <p class="fl">Premium café experience — handcrafted food, fast delivery, real flavour. Because you deserve the best.</p>
+    </div>
+    <div><div class="ft">Quick Links</div><ul class="flinks"><li><a href="#home">Home</a></li><li><a href="#menu">Menu</a></li><li><a href="#about">About</a></li></ul></div>
+    <div><div class="ft">Menu</div><ul class="flinks"><li><a href="#menu">Burgers</a></li><li><a href="#menu">Pizzas</a></li><li><a href="#menu">Shawarma</a></li><li><a href="#menu">Drinks</a></li></ul></div>
+    <div>
+      <div class="ft">Contact</div>
+      <div class="fct">📞 <a href="tel:8973155551">+91 89731 55551</a></div>
+      <div class="fct">✉️ <a href="mailto:dsdeepak2424@gmail.com" style="word-break:break-all;">dsdeepak2424@gmail.com</a></div>
+      <div class="fct">📍 NIK Café,Rameswaram</div>
+      <button onclick="openWA()" style="background:#25D366;color:white;border:none;padding:9px 18px;border-radius:50px;font-family:Syne,sans-serif;font-weight:800;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;gap:7px;margin-top:4px;">💬 WhatsApp Us</button>
+    </div>
+  </div>
+  <div class="fbot">© 2024 NIK Café. All rights reserved. | Made with ❤️ for food lovers.</div>
+</footer>
+
+<script>
+const OWNER='918973155551';
+const OWNER_EMAIL='dsdeepak2424@gmail.com';
+const UPI='indiadeepaksunil-1@oksbi';
+const UNAME='NIK Cafe';
+
+const MENU=[
+  {id:1,cat:'burger',name:'Classic Smash Burger',desc:'Juicy smashed patty, cheddar, caramelised onions, house sauce',price:149,img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80',badge:'Best Seller',veg:false},
+  {id:2,cat:'burger',name:'Chicken Crispy Burger',desc:'Crunchy fried chicken, chipotle mayo, fresh lettuce',price:139,img:'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=500&q=80',badge:'Spicy 🌶',veg:false},
+  {id:3,cat:'burger',name:'Double Smash Burger',desc:'Double patty, special NIK sauce, pickles, cheese',price:189,img:'https://images.unsplash.com/photo-1550317138-10000687a72b?w=500&q=80',badge:'',veg:false},
+  {id:4,cat:'burger',name:'Veggie Delight Burger',desc:'Crispy veg patty, fresh veggies, mint chutney, masala mayo',price:119,img:'https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=500&q=80',badge:'Veg',veg:true},
+  {id:5,cat:'pizza',name:'Margherita Classic',desc:'Tomato base, fresh mozzarella, basil, premium olive oil',price:199,img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&q=80',badge:'',veg:true},
+  {id:6,cat:'pizza',name:'Chicken Tikka Pizza',desc:'Spicy tikka chicken, bell peppers, onion, tikka sauce',price:249,img:'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=500&q=80',badge:'Hot 🌶',veg:false},
+  {id:7,cat:'pizza',name:'BBQ Loaded Pizza',desc:'BBQ chicken, caramelised onions, jalapeños, ranch drizzle',price:269,img:'https://images.unsplash.com/photo-1595854341625-f33ee10dbf94?w=500&q=80',badge:"Chef's Pick",veg:false},
+  {id:8,cat:'pizza',name:'Paneer Pesto Pizza',desc:'Pesto base, paneer, sun-dried tomatoes, arugula',price:229,img:'https://images.unsplash.com/photo-1571066811602-716837d681de?w=500&q=80',badge:'Veg',veg:true},
+  {id:9,cat:'shawarma',name:'Chicken Shawarma Wrap',desc:'Marinated chicken, garlic sauce, pickles, veggies in pita',price:129,img:'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500&q=80',badge:'Popular',veg:false},
+  {id:10,cat:'shawarma',name:'Beef Shawarma Plate',desc:'Premium beef, hummus, tabbouleh, pita, tahini',price:179,img:'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=500&q=80',badge:'',veg:false},
+  {id:11,cat:'shawarma',name:'Paneer Shawarma',desc:'Spiced paneer, tahini, garlic sauce, fresh salad, pita',price:139,img:'https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=500&q=80',badge:'Veg',veg:true},
+  {id:12,cat:'drinks',name:'Classic Lemonade',desc:'Fresh lemons, mint, sugar, chilled perfectly',price:69,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQDqMk5sjcTWBiD4dVV3rU4kht97Sr3JzQCA&s',badge:'',veg:true},
+  {id:13,cat:'drinks',name:'Strawberry Lemonade',desc:'Fresh strawberries, lemonade, basil seeds, crushed ice',price:89,img:'https://images.unsplash.com/photo-1499638673689-79a0b5115d87?w=500&q=80',badge:'New ✨',veg:true},
+  {id:14,cat:'drinks',name:'Watermelon Cooler',desc:'Fresh watermelon, lime, salt, mint',price:79,img:'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=500&q=80',badge:'',veg:true},
+  {id:15,cat:'drinks',name:'Mango Lassi',desc:'Alphonso mango, creamy yoghurt, cardamom, rose water',price:99,img:'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=500&q=80',badge:'Seasonal',veg:true},
+];
+
+let cart={}, step=1, payMethod='';
+
+/* MENU */
+function renderMenu(cat){
+  const items=cat==='all'?MENU:MENU.filter(i=>i.cat===cat);
+  document.getElementById('mgrid').innerHTML=items.map(i=>`
+  <div class="mcard">
+    <div class="mwrap">
+      <img src="${i.img}" class="mimg" alt="${i.name}" loading="lazy">
+      ${i.badge?`<div class="mbadge">${i.badge}</div>`:''}
+      <img src="${i.veg?'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Veg_symbol.svg/30px-Veg_symbol.svg.png':'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Non_veg_symbol.svg/30px-Non_veg_symbol.svg.png'}" class="mveg" title="${i.veg?'Veg':'Non-Veg'}">
+    </div>
+    <div class="mbody">
+      <div class="mname">${i.name}</div>
+      <div class="mdesc">${i.desc}</div>
+      <div class="mfoot">
+        <div class="mprice">₹${i.price} <small>/ item</small></div>
+        <button class="addbtn" onclick="addItem(${i.id})">+</button>
+      </div>
+    </div>
+  </div>`).join('');
+}
+function filterMenu(cat,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderMenu(cat);
+}
+renderMenu('all');
+
+/* CART */
+function addItem(id){
+  cart[id]=(cart[id]||0)+1;
+  refresh();
+  showToast('✅ '+MENU.find(i=>i.id===id).name+' added!');
+}
+function changeQty(id,d){
+  if(!cart[id])return;
+  cart[id]+=d;
+  if(cart[id]<=0)delete cart[id];
+  refresh();
+}
+function getTotal(){
+  return Object.keys(cart).reduce((s,id)=>{const i=MENU.find(m=>m.id==id);return s+i.price*cart[id];},0);
+}
+function getLines(){
+  let l='',t=0;
+  Object.keys(cart).forEach(id=>{const i=MENU.find(m=>m.id==id);l+=`• ${i.name} ×${cart[id]} = ₹${i.price*cart[id]}\n`;t+=i.price*cart[id];});
+  return{l,t};
+}
+function getAddr(){
+  const lm=document.getElementById('aLm').value;
+  return `${document.getElementById('aN').value}, ${document.getElementById('aPh').value}, ${document.getElementById('aSt').value}, ${document.getElementById('aCi').value} - ${document.getElementById('aPi').value}${lm?', Near: '+lm:''}`;
+}
+
+function refresh(){
+  const keys=Object.keys(cart);
+  const total=Object.values(cart).reduce((a,b)=>a+b,0);
+  document.getElementById('cbadge').textContent=total;
+
+  // FIX: always reference stable DOM nodes — never move or wipe them
+  const empt=document.getElementById('empt');
+  const list=document.getElementById('cart-list'); // separate container for items
+  const sbar=document.getElementById('sbar');
+  const btn=document.getElementById('ctabtn');
+
+  if(keys.length===0){
+    // FIX Bug 1 & 3: just toggle display, never touch innerHTML of #citems
+    empt.style.display='block';
+    list.innerHTML='';
+    sbar.style.display='none';
+    btn.disabled=true;
+    btn.textContent='🍔 Order Your Food';
+    return;
+  }
+
+  // FIX Bug 2: hide empt, write items into #cart-list only — empt stays in DOM
+  empt.style.display='none';
+  sbar.style.display='block';
+  btn.disabled=false;
+
+  let html='';
+  keys.forEach(id=>{
+    const i=MENU.find(m=>m.id==id);
+    // FIX Bug 2: changeQty(id,1) now works every call because #empt is never nuked
+    html+=`<div class="ci">
+      <img src="${i.img}" class="ciimg" alt="${i.name}">
+      <div>
+        <div class="cin">${i.name}</div>
+        <div class="cip">₹${i.price} × ${cart[id]} = <b>₹${i.price*cart[id]}</b></div>
+      </div>
+      <div class="qctrl">
+        <button class="qb" onclick="changeQty(${id},-1)">−</button>
+        <span class="qn">${cart[id]}</span>
+        <button class="qb" onclick="changeQty(${id},1)">+</button>
+      </div>
+    </div>`;
+  });
+  // FIX Bug 1: write to #cart-list, not #citems — all items preserved on re-render
+  list.innerHTML=html;
+
+  const t=getTotal();
+  document.getElementById('subv').textContent='₹'+t;
+  document.getElementById('pt-s').textContent='₹'+t;
+  document.getElementById('pt-g').textContent='₹'+t;
+  document.getElementById('codamt').textContent=t;
+  updateCta();
+}
+
+function updateCta(){
+  const labels=['','🍔 Order Your Food →','📍 Continue to Payment →','💳 Pay Now →'];
+  document.getElementById('ctabtn').textContent=labels[step]||'Next →';
+}
+
+/* SIDEBAR */
+function openSB(){document.getElementById('ov').classList.add('on');document.getElementById('sb').classList.add('on');}
+function closeSB(){document.getElementById('ov').classList.remove('on');document.getElementById('sb').classList.remove('on');}
+
+/* STEPS */
+function goStep(n){
+  if(n===2&&Object.keys(cart).length===0){showToast('🛒 Add items first!');return;}
+  if(n===3&&!validateAddr())return;
+  step=n;
+  [1,2,3].forEach(i=>{
+    document.getElementById('p'+i).classList.remove('active');
+    const d=document.getElementById('sd'+i);
+    d.classList.remove('active','done');
+    if(i<n)d.classList.add('done');
+    if(i===n)d.classList.add('active');
+    if(i<3)document.getElementById('sl'+i).classList.toggle('done',i<n);
+  });
+  document.getElementById('p'+n).classList.add('active');
+  updateCta();
+  if(n===3){const t=getTotal();document.getElementById('pt-s').textContent='₹'+t;document.getElementById('pt-g').textContent='₹'+t;document.getElementById('codamt').textContent=t;}
+}
+
+function ctaClick(){
+  if(step<3)goStep(step+1);
+}
+
+/* ADDR VALIDATION */
+function validateAddr(){
+  const f=['aN','aPh','aEm','aSt','aCi','aPi'];
+  const e=document.getElementById('aerr');
+  for(const id of f){if(!document.getElementById(id).value.trim()){e.classList.add('show');document.getElementById(id).focus();return false;}}
+  e.classList.remove('show');return true;
+}
+
+/* ═══════════════════════════════════════════════
+   PAYMENT SYSTEM — handlePayment() + verify flow
+═══════════════════════════════════════════════ */
+
+// Detects if visitor is on a real mobile device
+function isMobile(){
+  return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+}
+
+// ── Builds the UPI deep-link URL with dynamic amount ──
+function buildUpiUrl(amount){
+  return `upi://pay?pa=indiadeepaksunil-1@oksbi&pn=Deepak%20Sunil&am=${amount}&cu=INR&tn=NIK%20Cafe%20Order`;
+}
+
+// ── Central payment selector ──
+function selPay(m,el){
+  payMethod=m;
+  document.querySelectorAll('.pycard').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('codinf').style.display=m==='cod'?'block':'none';
+}
+
+// ── Called when "Confirm & Pay" is clicked in Step 3 ──
+function processPayment(){
+  if(!payMethod){showToast('⚠️ Select a payment method');return;}
+  const{l,t}=getLines();
+  const addr   = getAddr();
+  const name   = document.getElementById('aN').value;
+  const phone  = document.getElementById('aPh').value.replace(/\D/g,'');
+  const email  = document.getElementById('aEm').value;
+  const oid    = 'NIK' + Date.now().toString().slice(-6);
+
+  if(payMethod==='cod'){
+    showCodModal(t,l,addr,name,phone,email,oid);
+  } else {
+    // All UPI methods use a single universal modal
+    handlePayment(t,l,addr,name,phone,email,oid);
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// handlePayment — THE MAIN UPI FUNCTION
+// Generates UPI URL, handles mobile vs desktop, verify
+// ══════════════════════════════════════════════════════
+function handlePayment(t, l, addr, name, phone, email, oid){
+  const upiUrl = buildUpiUrl(t);   // dynamic amount baked in
+  const mobile = isMobile();
+
+  // Store order context on window so verify step can access it
+  window._pendingOrder = {t, l, addr, name, phone, email, oid};
+
+  let html = `
+  <div class="upi-modal-inner">
+    <div class="upi-ico">💳</div>
+    <div class="upi-title">UPI Payment</div>
+    <div class="upi-sub">Pay securely using any UPI app — GPay, PhonePe, Paytm, or your bank app.</div>
+    <div class="upi-amt">₹${t}</div>
+    <div class="upi-id-box">
+      Pay to UPI ID<strong>indiadeepaksunil-1@oksbi</strong>
+    </div>`;
+
+  if(mobile){
+    // ── MOBILE: one tap opens the UPI app chooser ──
+    html += `
+    <a href="${upiUrl}" class="upi-pay-btn" id="upiPayBtn"
+       onclick="onUpiTapped()">
+      📲 Open UPI App &amp; Pay ₹${t}
+    </a>
+    <p style="font-size:0.72rem;color:var(--muted);margin-bottom:4px;">
+      Tap above → your phone's UPI app chooser opens → select GPay / PhonePe / Paytm → pay.
+    </p>`;
+  } else {
+    // ── DESKTOP: UPI deep links don't work → show QR + instructions ──
+    html += `
+    <div class="desktop-fallback show">
+      <div class="df-title">📱 Open on Mobile to Pay via UPI</div>
+      <div class="df-sub">UPI apps only work on mobile. On desktop, scan this QR with your phone's camera or any UPI app, or open this website on your phone.</div>
+      <canvas id="qrCanvas" width="160" height="160"></canvas>
+      <div>UPI ID: <span class="df-upi">indiadeepaksunil-1@oksbi</span></div>
+    </div>
+    <button class="upi-pay-btn" id="upiPayBtn" onclick="onUpiTapped()" style="margin-top:14px;">
+      ✅ I've Paid — Verify &amp; Confirm Order
+    </button>`;
+  }
+
+  // ── VERIFY section — appears after tapping Pay ──
+  html += `
+    <div class="verify-section" id="verifySection">
+      <div class="verify-label">✅ Enter UPI Transaction ID to confirm</div>
+      <input type="text" class="verify-input" id="upiTxnId"
+             placeholder="e.g. 407123456789 (optional)">
+      <button class="verify-btn" onclick="verifyAndConfirm()">
+        🎉 Confirm Order
+      </button>
+    </div>
+    <div class="upi-steps">
+      <div class="us">1. Tap the pay button → UPI app opens with ₹${t} pre-filled</div>
+      <div class="us">2. Complete payment in your UPI app</div>
+      <div class="us">3. Come back here → enter Transaction ID → tap Confirm</div>
+      <div class="us">4. Order details sent to your WhatsApp &amp; our team</div>
+    </div>
+    <button class="modal-cancel" onclick="closeModal()">✕ Cancel</button>
+  </div>`;
+
+  document.getElementById('mBody').innerHTML = html;
+  document.getElementById('payModal').classList.add('on');
+
+  // Generate QR code on desktop after DOM renders
+  if(!mobile){
+    setTimeout(()=>generateQR(upiUrl), 80);
+  }
+}
+
+// ── Called when "Open UPI App" link is tapped ──
+function onUpiTapped(){
+  // Reveal the verify section after a short delay (UPI app is launching)
+  setTimeout(()=>{
+    const vs = document.getElementById('verifySection');
+    if(vs){ vs.classList.add('show'); vs.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+  }, 1200);
+}
+
+// ── Generate QR code into canvas (pure JS, no library) ──
+function generateQR(text){
+  const canvas = document.getElementById('qrCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const size = 160;
+  // Draw a styled placeholder with the UPI string wrapped
+  // For a real QR, include qrcode.js lib. This draws a clear instruction tile.
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, size, size);
+  // Draw corner squares (QR finder pattern style)
+  const drawFinder = (x,y)=>{
+    ctx.fillStyle='#0a1a16';
+    ctx.fillRect(x,y,28,28);
+    ctx.fillStyle='#ffffff';
+    ctx.fillRect(x+4,y+4,20,20);
+    ctx.fillStyle='#0a1a16';
+    ctx.fillRect(x+8,y+8,12,12);
+  };
+  drawFinder(8,8); drawFinder(size-36,8); drawFinder(8,size-36);
+  // Center UPI icon
+  ctx.fillStyle='#00c896';
+  ctx.fillRect(60,60,40,40);
+  ctx.fillStyle='#ffffff';
+  ctx.font='bold 11px Syne,sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('UPI',80,85);
+  // Instruction text
+  ctx.fillStyle='#0a1a16';
+  ctx.font='9px Nunito,sans-serif';
+  ctx.fillText('Scan with any',80,118);
+  ctx.fillText('UPI app',80,130);
+
+  // Also try to load qrcode lib dynamically for real QR
+  if(!window.QRCode){
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+    s.onload = ()=>{
+      ctx.clearRect(0,0,size,size);
+      // QRCode lib needs a div, use offscreen
+      const div = document.createElement('div');
+      new QRCode(div,{text,width:size,height:size,colorDark:'#0a1a16',colorLight:'#ffffff'});
+      setTimeout(()=>{
+        const img = div.querySelector('img')||div.querySelector('canvas');
+        if(img){ const i=new Image(); i.onload=()=>ctx.drawImage(i,0,0,size,size); i.src=img.src||img.toDataURL(); }
+      },300);
+    };
+    document.head.appendChild(s);
+  }
+}
+
+// ── Verify & Confirm — sends WhatsApp notification, shows success ──
+function verifyAndConfirm(){
+  const o = window._pendingOrder;
+  if(!o){ showToast('Session expired — please retry'); return; }
+  const txnId = (document.getElementById('upiTxnId')||{}).value || 'Not provided';
+  fireOrderNotifications(o.t, o.l, o.addr, o.name, o.phone, o.email, o.oid, 'UPI (GPay/PhonePe/Paytm)', txnId);
+}
+
+// ── COD modal (unchanged flow) ──
+function showCodModal(t,l,addr,name,phone,email,oid){
+  const html = `
+  <div class="upi-modal-inner">
+    <div class="upi-ico">💵</div>
+    <div class="upi-title">Cash on Delivery</div>
+    <div class="upi-sub">Your order will be placed. Keep ₹${t} exact change ready for our delivery partner.</div>
+    <div class="upi-amt">₹${t}</div>
+    <div class="upi-steps">
+      <div class="us">1. Order confirmed — delivery in ~30 minutes</div>
+      <div class="us">2. Keep ₹${t} cash ready (exact change preferred)</div>
+      <div class="us">3. Order details sent to your WhatsApp</div>
+    </div>
+    <button class="codc" onclick="fireOrderNotifications(${t},'${encodeURIComponent(l)}','${encodeURIComponent(addr)}','${encodeURIComponent(name)}','${phone}','${encodeURIComponent(email)}','${oid}','Cash on Delivery','N/A')">
+      ✅ Confirm COD Order
+    </button>
+    <button class="modal-cancel" onclick="closeModal()">✕ Cancel</button>
+  </div>`;
+  document.getElementById('mBody').innerHTML = html;
+  document.getElementById('payModal').classList.add('on');
+}
+
+// ══════════════════════════════════════════════════════
+// fireOrderNotifications — WhatsApp owner + customer,
+//                          email, then success popup
+// ══════════════════════════════════════════════════════
+function fireOrderNotifications(t, le, ae, ne, phone, ee, oid, payLabel, txnId){
+  // Decode if encoded (called from COD button with encoded args)
+  const l    = (typeof le==='string'&&le.includes('%')) ? decodeURIComponent(le) : le;
+  const addr = (typeof ae==='string'&&ae.includes('%')) ? decodeURIComponent(ae) : ae;
+  const name = (typeof ne==='string'&&ne.includes('%')) ? decodeURIComponent(ne) : ne;
+  const email= (typeof ee==='string'&&ee.includes('%')) ? decodeURIComponent(ee) : ee;
+
+  // ── 1. WhatsApp to OWNER (8973155551) ──
+  const ownerMsg =
+`🎉 *NEW ORDER — NIK Café*
+📋 Order ID: ${oid}
+
+${l}
+💰 *Total: ₹${t}*
+💳 Payment: ${payLabel}
+🔖 Txn ID: ${txnId}
+
+👤 Customer: ${name}
+📱 Phone: ${phone}
+📧 Email: ${email}
+📍 Address: ${addr}
+
+${payLabel==='Cash on Delivery'?'⚠️ COD — collect ₹'+t+' on delivery':'✅ UPI paid — verify Txn ID above'}`;
+
+  // Use 8973155551 directly as specified
+  window.open(`https://wa.me/8973155551?text=${encodeURIComponent(ownerMsg)}`, '_blank');
+
+  // ── 2. Email to owner ──
+  const subj = `New Order ${oid} — NIK Café`;
+  const body =
+`NEW ORDER RECEIVED!\n\nOrder ID: ${oid}\nCustomer: ${name}\nPhone: ${phone}\nEmail: ${email}\nPayment: ${payLabel}\nTxn ID: ${txnId}\n\nItems:\n${l}\nTotal: ₹${t}\n\nDelivery Address:\n${addr}`;
+  setTimeout(()=>{ window.location.href=`mailto:${OWNER_EMAIL}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`; }, 600);
+
+  // ── 3. WhatsApp confirmation to customer ──
+  const custMsg =
+`✅ *Order Confirmed — NIK Café!*
+
+Hi ${name}! 🎉 Your order is placed.
+📋 Order ID: ${oid}
+
+${l}💰 Total: ₹${t}
+💳 Payment: ${payLabel}
+📍 Delivering to: ${addr}
+
+⏱ Expected: ~30 minutes
+Thank you for choosing NIK Café! 🍔`;
+  const custPhone = String(phone).replace(/\D/g,'').slice(-10);
+  if(custPhone.length===10){
+    setTimeout(()=>window.open(`https://wa.me/91${custPhone}?text=${encodeURIComponent(custMsg)}`,'_blank'), 1100);
+  }
+
+  // ── 4. Show success popup ──
+  closeModal();
+  showSuccess(name, oid, l, t, payLabel, addr);
+
+  // ── 5. Reset cart ──
+  window._pendingOrder = null;
+  cart={}; step=1; payMethod='';
+  refresh(); goStep(1); closeSB();
+}
+
+// ── Success popup ──
+function showSuccess(name, oid, lines, total, payLabel, addr){
+  document.getElementById('successSub').textContent =
+    `Hi ${name}! 🎉 Your order has been placed and our team is on it.`;
+
+  document.getElementById('successCard').innerHTML = `
+    <strong>📋 Order ID:</strong> ${oid}<br>
+    <strong>🛒 Items:</strong><br>
+    <span style="white-space:pre-line;">${lines}</span>
+    <strong>💰 Total:</strong> ₹${total}<br>
+    <strong>💳 Payment:</strong> ${payLabel}<br>
+    <strong>📍 Deliver to:</strong> ${addr}`;
+
+  document.getElementById('successModal').classList.add('on');
+}
+
+function closeModal(){document.getElementById('payModal').classList.remove('on');}
+function closeSuccess(){
+  document.getElementById('successModal').classList.remove('on');
+  showToast('🍔 Thanks for ordering from NIK Café!');
+}
+function openWA(){window.open(`https://wa.me/8973155551?text=${encodeURIComponent("Hi NIK Café! I'd like to place an order 🍔")}`,'_blank');}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),3000);
+}
+
+refresh();
+</script>
+</body>
+</html>
